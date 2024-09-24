@@ -1,0 +1,30 @@
+COOR_3D
+  N1       0.0        0.0
+  N2       0.0        20.0
+  N3       20.0       0.0
+  N4       20.0       20.0
+FINSF
+
+SEG2
+B1      N2         N4
+B2      N1         N4
+B3      N1         N3
+B4      N3         N4
+FINSF
+
+GROUP_NO
+nodalConstraint1
+N1 N2
+FINSF
+
+GROUP_NO
+nodalForceY1
+N4
+FINSF
+
+GROUP_MA
+BEAM_1
+B1 B2 B3 B4
+FINSF
+
+FIN

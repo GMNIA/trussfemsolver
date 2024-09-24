@@ -1,0 +1,55 @@
+COOR_3D
+  N1       0.0 0.0 0.0
+  N2       10 5 0
+  N3       10 0 0
+  N4       20 8 0
+  N5       20 0 0
+  N6       30 9 0
+  N7       30 0 0
+  N8       40 8 0
+  N9       40 0 0
+  N10      50 5 0
+  N11      50 0 0 
+  N12      60 0 0
+FINSF
+
+SEG2
+B1 N1 N3 
+B2 N3 N5 
+B3 N5 N7 
+B4 N7 N9 
+B5 N9 N11 
+B6 N11 N12 
+B7 N1 N2
+B8 N2 N4 
+B9 N4 N6 
+B10 N6 N8 
+B11 N8 N10
+B12 N10 N12
+B13 N2 N3 
+B14 N4 N5 
+B15 N6 N7 
+B16 N8 N9 
+B17 N10 N11
+B18 N2 N5 
+B19 N4 N7 
+B20 N7 N8 
+B21 N9 N10
+FINSF
+
+GROUP_NO
+nodalConstraint1
+N1 N12
+FINSF
+
+GROUP_NO
+nodalForceY1
+N3 N5 N7 N9 N11
+FINSF
+
+GROUP_MA
+BEAM_1
+B1 B2 B3 B4
+FINSF
+
+FIN
