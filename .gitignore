@@ -1,0 +1,6 @@
+/build
+/built
+*.exe
+*.obj
+*.log
+*.o
