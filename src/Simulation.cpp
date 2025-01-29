@@ -54,17 +54,8 @@ void Simulation::run() {
     }    
 
     // Discriminate between 2 dof case (2D space example) and 3 dof case (3D-space example)
-    int inputDofEdge;
-    int inputDofNode;
-    if (allThree) {
-        inputDofEdge = 6;
-        inputDofNode = 3;
-    } else if (allTwo) {
-        inputDofEdge = 4;
-        inputDofNode = 2;
-    }
-    const int dofEdge = inputDofEdge;
-    const int dofNode = inputDofNode;
+    const int dofEdge = (allThree) ? 6 : 4;
+    const int dofNode = (allThree) ? 3 : 2;
 
     // Initialise structured data for stiffness
     std::list<std::vector<std::vector<double>>> Kels;
@@ -179,14 +170,14 @@ void Simulation::run() {
     }
 
     // Build global stiffness matrix using id matrix and local stiffness matrices in global coordinates
-    Eigen::MatrixXd Kglobal(dofNode * nodes.size(), dofNode * nodes.size());
+    Eigen::SparseMatrix<double> Kglobal(dofNode * nodes.size(), dofNode * nodes.size());
     int k = 0;
     for (const auto& Kel : Kels) {
         for (int i = 0; i < dofEdge; i++) {
             for (int j = 0; j < dofEdge; j++) {
                 int globalRow = idMatrix[i][k] - 1;
                 int globalCol = idMatrix[j][k] - 1;
-                Kglobal(globalRow, globalCol) += Kel[i][j];
+                Kglobal.coeffRef(globalRow, globalCol) += Kel[i][j];
             }
         }
         k += 1;
@@ -255,7 +246,7 @@ void Simulation::run() {
     Eigen::VectorXd F_red(reducedSize);
     for (int i = 0; i < reducedSize; ++i) {
         for (int j = 0; j < reducedSize; ++j) {
-            Kglobal_red(i, j) = Kglobal(freeIndices[i], freeIndices[j]);
+            Kglobal_red(i, j) = Kglobal.coeffRef(freeIndices[i], freeIndices[j]);
         }
         F_red(i) = F(freeIndices[i]);
     }
